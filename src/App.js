@@ -3,17 +3,6 @@ import logo from './logo.svg';
 import './App.css';
 import React,{ useState } from 'react';
 
-
-const ongoingList = [
-  { title: '开发任务-4', status: '22-05-22 18:15' },
-  { title: '开发任务-6', status: '22-05-22 18:15' },
-  { title: '测试任务-2', status: '22-05-22 18:15' }
-];
-const doneList = [
-  { title: '开发任务-2', status: '22-05-22 18:15' },
-  { title: '测试任务-1', status: '22-05-22 18:15' }
-];
-
 const KanbanCard = ({ title, status }) => {
   return (
     <li className="kanban-card">
@@ -50,6 +39,7 @@ const KanbanNewCard = ({onSubmit}) => {
 
 function App() {
 
+  //处理todo卡片的新增
   const [showAdd,setShowAdd] = useState(false);
 
   const [todoList,setTodoList] = useState([
@@ -72,6 +62,44 @@ function App() {
     //setShowAdd(false)
   };
 
+  //处理进行中的卡片的新增
+  const [showOngoAdd,setShowOngoAdd] = useState(false);
+  const [ongoList,setOngoList] = useState([
+    { title: '开发任务-4', status: '22-05-22 18:15' },
+    { title: '开发任务-6', status: '22-05-22 18:15' },
+    { title: '测试任务-2', status: '22-05-22 18:15' }
+  ])
+
+  const handleOngoAdd = (evt) =>{
+    setShowOngoAdd(true)
+  }
+
+  const handleOngoSubmit = (title)=>{
+    setOngoList(currentOngoList =>[
+      {title,status:new Date().toDateString()},
+        ...currentOngoList
+    ]);
+  };
+
+  //处理已完成卡片的新增
+  const [showDoneAdd,setShowDoneAdd] = useState(false);
+  const [doneList,setDoneList] = useState([
+    { title: '开发任务-2', status: '22-05-22 18:15' },
+    { title: '测试任务-1', status: '22-05-22 18:15' }
+  ]);
+
+  const handleDoneAdd = (evt) =>{
+    setShowDoneAdd(true)
+  }
+
+  const handleDoneSubmit = (title)=>{
+    setDoneList(currentDoneList =>[
+      {title,status:new Date().toDateString()},
+        ...currentDoneList
+    ]);
+  };
+
+
   return (
     <div className="App">
       <header className="App-header">
@@ -89,16 +117,22 @@ function App() {
           </ul>
         </section>
         <section className='kanban-column column-ongoing'>
-          <h2>进行中</h2>
-          {
-            ongoingList.map(props => <KanbanCard {...props}/>)
-          }
+          <h2>进行中<button onClick={handleOngoAdd} disabled={showOngoAdd}>&#8853;添加新卡片</button></h2>
+          <ul>
+              {showOngoAdd && <KanbanNewCard onSubmit={handleOngoSubmit}/>}
+            {
+              ongoList.map(props => <KanbanCard {...props}/>)
+            }
+          </ul>
         </section>
         <section className='kanban-column column-done'>
-          <h2>已完成</h2>
-          {
-            doneList.map(props => <KanbanCard {...props}/>)
-          }
+          <h2>已完成<button onClick={handleDoneAdd} disabled={showDoneAdd}>&#8853;添加新卡片</button></h2>
+          <ul>
+            {showDoneAdd && <KanbanNewCard onSubmit={handleDoneSubmit}/>}
+            {
+              doneList.map(props => <KanbanCard {...props}/>)
+            }
+          </ul>
         </section>
       </main>
     </div>
