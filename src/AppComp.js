@@ -129,7 +129,7 @@ function App() {
         }>
             {showAdd && <KanbanNewCard onSubmit={handleSubmit}/>}
             {
-              todoList.map(props => <KanbanCard {...props}/>)
+              todoList.map(props => <KanbanCard key={props.title} {...props}/>)
             }
         </KanbanColumn>
         <KanbanColumn className = "column-ongoing" title={
@@ -139,7 +139,7 @@ function App() {
         }>
               {showOngoAdd && <KanbanNewCard onSubmit={handleOngoSubmit}/>}
             {
-              ongoList.map(props => <KanbanCard {...props}/>)
+              ongoList.map(props => <KanbanCard key={props.title} {...props}/>)
             }
         </KanbanColumn>
         <KanbanColumn className="column-done" title={
@@ -149,7 +149,7 @@ function App() {
         }>
             {showDoneAdd && <KanbanNewCard onSubmit={handleDoneSubmit}/>}
             {
-              doneList.map(props => <KanbanCard {...props}/>)
+              doneList.map(props => <KanbanCard key={props.title} {...props}/>)
             }
         </KanbanColumn>
       </KanbanBoard>
